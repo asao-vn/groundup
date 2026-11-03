@@ -13,7 +13,9 @@ approximate methods (coupled cluster, DFT) in later milestones.
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable
+import os
+from collections.abc import Callable, Iterable, Sequence
+from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 
@@ -55,6 +57,91 @@ def h_atom_energy(basis: str = "cc-pvtz") -> float:
     mf = scf.UHF(mol)
     mf.conv_tol = 1e-11
     return float(mf.kernel())
+
+
+def h2_triplet_energy(r_bohr: float, basis: str = "cc-pvtz") -> float:
+    """Exact (full CI) energy of the lowest triplet state of H2, in Hartree.
+
+    The triplet is repulsive at every bond length; it is the "anti-bonding"
+    partner of the ground state and enters the H3 surface through the bridge.
+    """
+    gto, scf, fci = _pyscf()
+    mol = gto.M(
+        atom=[["H", (0.0, 0.0, 0.0)], ["H", (0.0, 0.0, float(r_bohr))]],
+        unit="Bohr",
+        basis=basis,
+        spin=2,
+        verbose=0,
+    )
+    mf = scf.ROHF(mol)
+    mf.conv_tol = 1e-11
+    mf.kernel()
+    energy, _ = fci.FCI(mf).kernel()
+    return float(energy)
+
+
+def h3_geometry(r1_bohr: float, r2_bohr: float, angle_deg: float = 180.0) -> list:
+    """Atoms A-B-C with |AB| = r1, |BC| = r2 and angle ABC (180 = collinear)."""
+    theta = np.radians(angle_deg)
+    return [
+        ["H", (0.0, 0.0, -float(r1_bohr))],
+        ["H", (0.0, 0.0, 0.0)],
+        ["H", (float(r2_bohr) * np.sin(theta), 0.0, -float(r2_bohr) * np.cos(theta))],
+    ]
+
+
+def h3_energy(r1_bohr: float, r2_bohr: float, angle_deg: float = 180.0, basis: str = "cc-pvtz") -> float:
+    """Exact (full CI) ground-state doublet energy of H3, in Hartree.
+
+    Three electrons in the full orbital space of the basis. Full CI does not
+    depend on the orbitals it starts from, so the ROHF step only supplies an
+    orthonormal basis; spin is pinned to the doublet (S = 1/2).
+    """
+    gto, scf, fci = _pyscf()
+    mol = gto.M(atom=h3_geometry(r1_bohr, r2_bohr, angle_deg), unit="Bohr", basis=basis, spin=1, verbose=0)
+    mf = scf.ROHF(mol)
+    mf.conv_tol = 1e-10
+    mf.kernel()
+    solver = fci.FCI(mf)
+    fci.addons.fix_spin_(solver, ss=0.75)
+    energy, _ = solver.kernel()
+    return float(energy)
+
+
+def _h3_point(args: tuple) -> float:
+    r1, r2, angle, basis = args
+    return h3_energy(r1, r2, angle, basis)
+
+
+def h3_energies(
+    points: Sequence[tuple[float, float, float]],
+    basis: str = "cc-pvtz",
+    workers: int | None = None,
+    on_point: Callable[[tuple[float, float, float], float], None] | None = None,
+) -> np.ndarray:
+    """Full-CI H3 energies for ``(r1, r2, angle_deg)`` points, run in parallel processes.
+
+    Each point is independent, so they are spread over ``workers`` processes
+    (default: half the CPU count, at most 4). Results keep the input order.
+    """
+    if workers is None:
+        workers = max(1, min(4, (os.cpu_count() or 2) // 2))
+    jobs = [(float(r1), float(r2), float(ang), basis) for r1, r2, ang in points]
+    out = np.empty(len(jobs))
+    if workers == 1:
+        results = map(_h3_point, jobs)
+    else:
+        pool = ProcessPoolExecutor(max_workers=workers)
+        results = pool.map(_h3_point, jobs)
+    try:
+        for i, e in enumerate(results):
+            out[i] = e
+            if on_point is not None:
+                on_point(tuple(jobs[i][:3]), float(e))
+    finally:
+        if workers != 1:
+            pool.shutdown()
+    return out
 
 
 def h2_potential_curve(

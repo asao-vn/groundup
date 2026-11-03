@@ -11,17 +11,28 @@ checks pass against experiment (see [Principles](principles.md)).
 - Gates: bond length, vibration frequency, dissociation energy and the
   fundamental transition against NIST.
 
-## M1: the first reaction, H + H2 → H2 + H
+## M1: the first reaction, D + H2 → HD + H (done)
 
 The simplest chemical reaction still involves only hydrogen. With 3 electrons,
-layer 0 can stay exact.
+layer 0 can stay exact. Deuterium is used because D + H2 has direct
+high-temperature measurements, and one Born–Oppenheimer surface serves every
+isotope.
 
-- Layer 0: full-CI potential energy surface of H3.
-- Bridge: a reactive rule derived from that surface (fitted surface, or an
-  ML potential trained on it).
-- Layer 1: classical trajectories that break and form bonds by themselves.
-- Bridge 2: a rate constant derived by counting reactive trajectories.
-- Gates: barrier height and thermal rate constant against measured values.
+- Layer 0: full-CI H3 near the barrier, plus points used only to measure loss.
+- Bridge 1: a reactive LEPS rule built from the M0 bond rule, with one Sato
+  parameter fixed by the layer-0 barrier.
+- Layer 1: classical collisions that break and form bonds by themselves.
+- Bridge 2: a rate constant from transition state theory with Wigner tunnelling.
+- Gates: k(T) at 700–1900 K against shock-tube data, within a factor of 2.
+  Result: within a factor of 1.21. See [M1](milestones/m1-dh2.md).
+
+## M1b: rates by counting trajectories
+
+- Fully three-dimensional, thermally sampled classical trajectories on the M1
+  rule; the rate is counted, not assumed.
+- Compare with M1's transition state theory and with experiment, to measure
+  recrossing directly.
+- Check the rule's saddle-point frequencies against layer 0.
 
 ## M2: small molecules, derived force fields
 
@@ -57,5 +68,5 @@ layer 0 can stay exact.
 - Measure how far the cell-level prediction moves. This is the first time a
   derived rule would reach biology.
 
-Milestones beyond M1 are a direction, not a promise. Their order will change as
+Milestones beyond M1b are a direction, not a promise. Their order will change as
 we learn where the joints break.

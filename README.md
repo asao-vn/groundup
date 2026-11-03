@@ -61,13 +61,42 @@ The two `INFO` rows are losses we record on purpose. The Morse shape only
 approximates the true curve, and classical atoms have no zero-point motion.
 Every number is written to `results/m0_h2.json` with its full provenance.
 
+## Milestone M1: the first reaction, D + H2 → HD + H
+
+The H3 surface is solved exactly near the barrier. A reactive rule is derived
+from it and the M0 bond rule, with one parameter fixed by the layer-0 barrier
+and nothing taken from experiment. On that rule, D and H2 collide, and bonds
+break and form by themselves. A rate constant derived from the same rule is
+then checked against shock-tube data
+([Michael & Fisher, J. Phys. Chem. 1990](https://doi.org/10.1021/j100371a022)).
+
+```bash
+.venv/bin/python -m groundup m1        # ~7 min, 14 exact H3 points
+```
+
+| | T | groundup k (cm³/s) | experiment k (cm³/s) | groundup / experiment |
+|---|---|---|---|---|
+| PASS | 700 K | 3.69 × 10⁻¹³ | 3.04 × 10⁻¹³ | 1.21 |
+| PASS | 1000 K | 2.28 × 10⁻¹² | 2.57 × 10⁻¹² | 0.89 |
+| PASS | 1500 K | 1.22 × 10⁻¹¹ | 1.35 × 10⁻¹¹ | 0.90 |
+| PASS | 1900 K | 2.83 × 10⁻¹¹ | 2.73 × 10⁻¹¹ | 1.04 |
+
+The tolerance (a factor of 2) was fixed before the first run. The agreement is
+closer than transition state theory deserves, so errors are partly cancelling.
+For example, the cc-pVTZ barrier, 9.94 kcal/mol, is 0.34 kcal/mol above the
+complete-basis-set estimate. Details and every loss:
+[docs/milestones/m1-dh2.md](docs/milestones/m1-dh2.md).
+
 ## Layout
 
 ```
 src/groundup/
   quantum.py      layer 0: exact quantum chemistry (PySCF)
   bridge.py       derive layer-1 rules from layer-0 data
+  leps.py         derive a reactive three-atom rule (M1)
   classical.py    layer 1: classical atoms (velocity Verlet)
+  reactive.py     layer 1: reactive collisions on a derived rule (M1)
+  rates.py        bridge 2: rate constants from a derived rule (M1)
   provenance.py   the record every derived rule carries
   validate.py     checks against experiment
   reference.py    experimental data, each value with its source
@@ -82,8 +111,9 @@ it is cited in [docs/references.md](docs/references.md).
 - [Vision](docs/vision.md): what has been done, and the gap groundup works on
 - [Concepts](docs/concepts.md): layers, emergence, and why a cell cannot be simulated atom by atom
 - [M0 in detail](docs/milestones/m0-h2.md): method, results, losses, limitations
+- [M1 in detail](docs/milestones/m1-dh2.md): the first reaction, D + H2 → HD + H
 - [Principles](docs/principles.md): the rules that keep the project honest
-- [Roadmap](docs/roadmap.md): next is M1, the first reaction (H + H2 → H2 + H)
+- [Roadmap](docs/roadmap.md): next is M1b, counting reactive trajectories in 3D
 - [Contributing](CONTRIBUTING.md)
 
 Build the site locally:
@@ -103,7 +133,9 @@ groundup mô phỏng tự nhiên theo từng tầng. Chỉ tầng dưới cùng 
 dưới, kèm hồ sơ nguồn gốc và phần thông tin bị mất. Mỗi tầng được kiểm chứng với
 số đo thực nghiệm. Bước đầu (M0): giải chính xác phân tử H₂, tự rút ra luật liên
 kết, rồi cho hai nguyên tử chuyển động theo luật đó. Kết quả khớp số đo của NIST
-trong khoảng 1%.
+trong khoảng 1%. M1: phản ứng hóa học đầu tiên D + H₂ → HD + H. Liên kết tự đứt
+và tự hình thành trong mô phỏng, và tốc độ phản ứng tính ra khớp thí nghiệm trong
+khoảng 1,21 lần.
 
 ## License
 

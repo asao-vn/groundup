@@ -38,6 +38,7 @@ nav:
   - Concepts: concepts.md
   - Milestones:
       - "M0: H2": milestones/m0-h2.md
+      - "M1: D + H2": milestones/m1-dh2.md
   - Principles: principles.md
   - Roadmap: roadmap.md
   - References: references.md

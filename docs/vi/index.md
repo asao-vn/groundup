@@ -69,11 +69,48 @@ Hai chỗ mất thông tin được ghi lại có chủ đích: hình dạng lu�
 đường cong thật (độ lệch dao động sai 5.8%), và nguyên tử cổ điển không có dao động
 điểm không của lượng tử (6.1%). Chi tiết: [M0](../milestones/m0-h2.md).
 
+## Bước thứ hai: M1, phản ứng hóa học đầu tiên D + H₂ → HD + H
+
+Đây là lần đầu tiên liên kết tự đứt và tự hình thành trong mô phỏng. D là
+deuteri, tức hydro có thêm một neutron. Dùng D vì phản ứng này đã được đo trực
+tiếp ở nhiệt độ cao ([Michael & Fisher 1990](../references.md#michael1990)).
+Bề mặt năng lượng chỉ phụ thuộc vào electron và điện tích hạt nhân, không phụ
+thuộc khối lượng ([Born & Oppenheimer 1927](../references.md#born1927)). Vì vậy
+một bề mặt duy nhất, rút ra từ H₃, dùng được cho mọi đồng vị.
+
+1. **Tầng lượng tử:** giải chính xác H₃ (3 electron) quanh đỉnh rào năng lượng.
+   Rào cao 9,94 kcal/mol.
+2. **Cầu nối 1:** máy tự rút ra luật phản ứng cho ba nguyên tử (dạng LEPS) từ luật
+   liên kết của M0, cộng thêm đúng một tham số. Tham số đó được chọn sao cho rào
+   khớp tầng lượng tử, không lấy gì từ thí nghiệm.
+3. **Tầng nguyên tử:** bắn D vào H₂ ở 100 mức năng lượng. Không ai bảo chúng phản
+   ứng. Dưới 0,45 eV thì D bật ra, từ 0,45 eV trở lên thì liên kết D–H mới tự hình
+   thành và H bay đi.
+4. **Cầu nối 2:** tính tốc độ phản ứng k(T) chỉ từ luật vừa rút ra, bằng lý thuyết
+   trạng thái chuyển tiếp ([Eyring 1935](../references.md#eyring1935)) cộng hiệu
+   ứng xuyên hầm ([Wigner 1932](../references.md#wigner1932)).
+5. **Kiểm chứng:** so với số đo bằng ống sóng xung kích.
+
+| Nhiệt độ | groundup (cm³/s) | Thực nghiệm (cm³/s) | Tỉ lệ |
+|---|---|---|---|
+| 700 K | 3,69 × 10⁻¹³ | 3,04 × 10⁻¹³ | 1,21 |
+| 1000 K | 2,28 × 10⁻¹² | 2,57 × 10⁻¹² | 0,89 |
+| 1500 K | 1,22 × 10⁻¹¹ | 1,35 × 10⁻¹¹ | 0,90 |
+| 1900 K | 2,83 × 10⁻¹¹ | 2,73 × 10⁻¹¹ | 1,04 |
+
+Ngưỡng đạt là sai lệch không quá 2 lần, và được chốt trước lần chạy đầu tiên.
+Kết quả khớp tốt hơn mức các giả định cho phép, nên một phần là do các sai số
+bù trừ nhau. Chẳng hạn, rào ở tầng lượng tử cao hơn ước lượng chính xác nhất
+(9,60 kcal/mol, [Peterson et al. 1994](../references.md#peterson1994)) khoảng
+0,34 kcal/mol. Mọi chỗ mất thông tin đều được ghi lại. Chi tiết:
+[M1](../milestones/m1-dh2.md).
+
 ## Tiếp theo
 
-M1 là phản ứng hóa học đầu tiên: H + H₂ → H₂ + H. Vẫn chỉ có hydro nên tầng lượng
-tử vẫn giải chính xác được, và đây sẽ là lần đầu liên kết tự đứt và tự hình thành
-trong mô phỏng. Xem [Roadmap](../roadmap.md).
+M1b: đếm trực tiếp các quỹ đạo phản ứng trong không gian 3 chiều, với phân tử ở
+nhiệt độ thật, trên cùng luật của M1. Tốc độ phản ứng khi đó được đếm ra chứ
+không giả định, và sẽ cho biết lý thuyết trạng thái chuyển tiếp sai bao nhiêu.
+Xem [Roadmap](../roadmap.md).
 
 ## Nguồn
 

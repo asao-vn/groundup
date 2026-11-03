@@ -36,15 +36,16 @@ MD_DT_AU = 1.0
 MD_STEPS = 30000
 
 
-def run(
+def derive_h2_bond(
     basis: str = "cc-pvtz",
     distances: Sequence[float] = DEFAULT_DISTANCES,
-    out_path: str | Path | None = None,
     log: Callable[[str], None] = print,
-) -> dict[str, Any]:
-    started = time.time()
-    method = f"FCI/{basis}"
+):
+    """Layer 0 + bridge of M0: exact H2 curve -> derived Morse rule.
 
+    Returns ``(r, e, e_atom, rule)``. Later milestones build on this rule.
+    """
+    method = f"FCI/{basis}"
     log(f"[layer 0] H2 solved exactly ({method}) at {len(distances)} bond lengths")
     r, e = h2_potential_curve(
         distances, basis, on_point=lambda ri, ei: log(f"          r = {ri:4.2f} bohr   E = {ei:.8f} Eh")
@@ -61,6 +62,18 @@ def run(
         f"a = {rule.a:.4f} /bohr; residual vs layer 0: rms {q['morse_rms_residual_cm1']:.0f} cm-1, "
         f"max {q['morse_max_abs_residual_cm1']:.0f} cm-1"
     )
+    return r, e, e_atom, rule
+
+
+def run(
+    basis: str = "cc-pvtz",
+    distances: Sequence[float] = DEFAULT_DISTANCES,
+    out_path: str | Path | None = None,
+    log: Callable[[str], None] = print,
+) -> dict[str, Any]:
+    started = time.time()
+    method = f"FCI/{basis}"
+    r, e, e_atom, rule = derive_h2_bond(basis, distances, log)
 
     m_h = MASS_H_AMU * AMU_TO_ME
     mu = m_h / 2.0

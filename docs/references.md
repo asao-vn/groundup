@@ -94,6 +94,64 @@ Used for: r_e = 0.74144 Å, ω_e = 4401.213 cm⁻¹, ω_e x_e = 121.336 cm⁻¹,
 D_0 = 36118.3 cm⁻¹. The fundamental 4158.541 cm⁻¹ is computed by groundup from
 the tabulated constants as ω_e − 2ω_e x_e.
 
+<a id="michael1990"></a>
+**Michael & Fisher 1990.** J. V. Michael, J. R. Fisher, "Rate constants for the
+reaction D + H2 → HD + H, over the temperature range 655–1979 K, by the flash
+photolysis-shock tube technique", *J. Phys. Chem.* 94, 3318–3323 (1990).
+[doi:10.1021/j100371a022](https://doi.org/10.1021/j100371a022).
+Used for: k = 3.76 × 10⁻¹⁰ exp(−4985 K / T) cm³ molecule⁻¹ s⁻¹ over 655–1979 K,
+±28%. The expression was read from the paper's abstract as given in its
+[OSTI record](https://www.osti.gov/biblio/6902675), not from the full text.
+
+## Reactions and rates (M1)
+
+<a id="peterson1994"></a>
+**Peterson, Woon & Dunning 1994.** K. A. Peterson, D. E. Woon, T. H. Dunning Jr.,
+"Benchmark calculations with correlated molecular wave functions. IV. The
+classical barrier height of the H+H2→H2+H reaction", *J. Chem. Phys.* 100,
+7410 (1994).
+[doi:10.1063/1.466884](https://doi.org/10.1063/1.466884).
+Used for: the complete-basis-set estimate of the H3 barrier, 9.60 ± 0.02 kcal/mol
+relative to exact H + H2, read from the paper's abstract. M1 compares its
+FCI/cc-pVTZ barrier with this value as information, not as a gate.
+
+<a id="london1929"></a>
+**London 1929.** F. London, "Quantenmechanische Deutung des Vorgangs der Aktivierung",
+*Z. Elektrochem.* 35, 552–555 (1929).
+[doi:10.1002/bbpc.192900025](https://doi.org/10.1002/bbpc.192900025).
+Used for: the London formula for three atoms, the root of the LEPS surface.
+
+<a id="eyring1931"></a>
+**Eyring & Polanyi 1931.** H. Eyring, M. Polanyi, "Über einfache Gasreaktionen",
+*Z. Phys. Chem. B* 12, 279–311 (1931). DOI not found on Crossref.
+Used for: the first potential energy surface for H + H2 built on London's formula.
+
+<a id="sato1955"></a>
+**Sato 1955.** S. Sato, "On a new method of drawing the potential energy surface",
+*J. Chem. Phys.* 23, 592–593 (1955).
+[doi:10.1063/1.1742043](https://doi.org/10.1063/1.1742043).
+Used for: the Sato parameter that completes the LEPS form used in bridge 1.
+
+<a id="eyring1935"></a>
+**Eyring 1935.** H. Eyring, "The activated complex in chemical reactions",
+*J. Chem. Phys.* 3, 107–115 (1935).
+[doi:10.1063/1.1749604](https://doi.org/10.1063/1.1749604).
+Used for: transition state theory, bridge 2.
+
+<a id="wigner1932"></a>
+**Wigner 1932.** E. Wigner, "Über das Überschreiten von Potentialschwellen bei
+chemischen Reaktionen", *Z. Phys. Chem. B* 19, 203–216 (1932).
+[doi:10.1515/zpch-1932-1920](https://doi.org/10.1515/zpch-1932-1920).
+Used for: the leading-order tunnelling correction κ = 1 + (ħω‡ / k_BT)² / 24.
+
+<a id="truhlar1996"></a>
+**Truhlar, Garrett & Klippenstein 1996.** D. G. Truhlar, B. C. Garrett,
+S. J. Klippenstein, "Current status of transition-state theory",
+*J. Phys. Chem.* 100, 12771–12800 (1996).
+[doi:10.1021/jp953748q](https://doi.org/10.1021/jp953748q).
+Used for: the assumptions of conventional TST (no recrossing, separable
+harmonic modes) and where they fail.
+
 ## Building blocks and scale
 
 <a id="durr2008"></a>
