@@ -23,6 +23,11 @@ Read [docs/principles.md](docs/principles.md) first. In practice:
 3. **Known limitations are recorded**, as `info` checks or in the provenance.
 4. **Tests**: a fast unit test for each new function, and a `@pytest.mark.slow`
    end-to-end test for each milestone.
+5. **Run the milestones locally before pushing** (`.venv/bin/pytest -m slow`)
+   and say in the PR that they passed. CI runs only the fast tests and the docs
+   build on every push. The milestones take many minutes of real quantum
+   chemistry, so CI runs them only when started by hand (Actions → ci → Run
+   workflow).
 
 ## Documentation and citations
 

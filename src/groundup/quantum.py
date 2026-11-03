@@ -13,6 +13,7 @@ approximate methods (coupled cluster, DFT) in later milestones.
 
 from __future__ import annotations
 
+import multiprocessing
 import os
 from collections.abc import Callable, Iterable, Sequence
 from concurrent.futures import ProcessPoolExecutor
@@ -123,6 +124,12 @@ def h3_energies(
 
     Each point is independent, so they are spread over ``workers`` processes
     (default: half the CPU count, at most 4). Results keep the input order.
+
+    Workers are always started with ``spawn``. ``fork`` (the Linux default
+    before Python 3.14) copies a parent whose OpenMP runtime PySCF has already
+    started, and the children then hang forever. Like any ``spawn`` user, a
+    script that calls this must guard its entry point with
+    ``if __name__ == "__main__":``.
     """
     if workers is None:
         workers = max(1, min(4, (os.cpu_count() or 2) // 2))
@@ -131,7 +138,7 @@ def h3_energies(
     if workers == 1:
         results = map(_h3_point, jobs)
     else:
-        pool = ProcessPoolExecutor(max_workers=workers)
+        pool = ProcessPoolExecutor(max_workers=workers, mp_context=multiprocessing.get_context("spawn"))
         results = pool.map(_h3_point, jobs)
     try:
         for i, e in enumerate(results):
