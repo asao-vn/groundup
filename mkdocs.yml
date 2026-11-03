@@ -1,0 +1,48 @@
+site_name: groundup
+site_description: Simulate nature layer by layer, where every layer above the bottom runs only on rules derived from the layer below.
+site_author: ASAO
+repo_url: https://github.com/asao-vn/groundup
+repo_name: asao-vn/groundup
+edit_uri: edit/main/docs/
+copyright: groundup is an open research project by ASAO. Code Apache-2.0.
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Vision: vision.md
+  - Concepts: concepts.md
+  - Milestones:
+      - "M0: H2": milestones/m0-h2.md
+  - Principles: principles.md
+  - Roadmap: roadmap.md
+  - References: references.md
+  - Tiếng Việt: vi/index.md
+
+validation:
+  links:
+    anchors: warn

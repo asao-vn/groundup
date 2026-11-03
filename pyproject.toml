@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "groundup"
+dynamic = ["version"]
+description = "Simulate nature layer by layer: every layer above the bottom runs only on rules derived from the layer below."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pyscf>=2.4",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+docs = ["mkdocs-material>=9.5"]
+
+[project.urls]
+Homepage = "https://github.com/asao-vn/groundup"
+Source = "https://github.com/asao-vn/groundup"
+Issues = "https://github.com/asao-vn/groundup/issues"
+
+[project.scripts]
+groundup = "groundup.__main__:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "groundup.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: runs layer 0 quantum chemistry (minutes, needs PySCF)"]
+addopts = "-m 'not slow'"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
